@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,6 +49,11 @@ class MainActivity : ComponentActivity() {
 fun ColorChooserApp(
     modifier: Modifier = Modifier,
 ) {
+    val colorMap = mapOf(
+        "Blue" to Color.Blue,
+        "Red" to Color.Red,
+        "Green" to Color.Green
+    )
 
     val colorsList = listOf("Blue", "Red", "Green")
     var currentColor by remember { mutableStateOf("") }
@@ -61,28 +67,33 @@ fun ColorChooserApp(
 
     Column(
         modifier = modifier
-            .background(backgroundColor)
-            .fillMaxWidth()
-    ) {
+            .background(color = backgroundColor)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+
+        ) {
         ColorChooserMenu(
-            colorName= currentColor,
-            colorsList = colorsList,
-            setColor = {newColor -> currentColor = newColor}
+            colorName = currentColor,
+            colorsList = colorMap.keys,
+            setColor = { newColor -> currentColor = newColor }
         )
-        Text(text= currentColor)
+        //Text(text = currentColor)
     }
 }
 
+/**
+ * This is some javadoc for something
+ *
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColorChooserMenu(
     colorName: String,
-    colorsList: List<String>,
+    colorsList: Set<String>,
     setColor: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
-
 
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -94,25 +105,29 @@ fun ColorChooserMenu(
             value = colorName,
             readOnly = true,
             onValueChange = {},
-            label = { Text("Chose a Color") },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            modifier = modifier
+            label = { Text("Choose a color") },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
+            modifier = Modifier
                 .menuAnchor()
                 .fillMaxWidth()
         )
 
         ExposedDropdownMenu(
             expanded = expanded,
-            onDismissRequest = {expanded = false}
+            onDismissRequest = {
+                expanded = false
+                setColor("")
+            }
         ) {
-            colorsList.forEach() { color ->
+            colorsList.forEach { color ->
                 DropdownMenuItem(
                     text = { Text(color) },
                     onClick = {
-
+                        setColor(color)
                         expanded = false
                     }
                 )
+
             }
         }
     }
