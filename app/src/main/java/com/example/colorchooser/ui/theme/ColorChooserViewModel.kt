@@ -45,4 +45,14 @@ class ColorChooserViewModel : ViewModel() {
         val newColor = Color(red, current.green, current.blue)
         setColor(newColor)
     }
+    fun setBlue(blue: Float) {
+        val current = _uiState.value.currentColor
+        val newColor = Color(current.red, current.green, blue)
+        setColor(newColor)
+    }
+    fun setGreen(green: Float) {
+        val current = _uiState.value.currentColor
+        val newColor = Color(current.red, green, current.blue)
+        setColor(newColor)
+    }
 }

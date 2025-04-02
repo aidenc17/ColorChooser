@@ -95,6 +95,14 @@ fun ColorChooserApp(
             value = colorChooserUIState.value.currentColor.red,
             onValueChange = { colorChooserViewModel.setRed(it) }
         )
+        Slider(
+            value = colorChooserUIState.value.currentColor.blue,
+            onValueChange = { colorChooserViewModel.setBlue(it) }
+        )
+        Slider(
+            value = colorChooserUIState.value.currentColor.green,
+            onValueChange = { colorChooserViewModel.setGreen(it) }
+        )
     }
 }
 
